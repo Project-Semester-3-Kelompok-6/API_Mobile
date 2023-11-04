@@ -1,9 +1,25 @@
 <?php
+
+$hostName = "localhost";
+$userName = "root";
+$password = "";
+$dbName = "hanaasri";
+
+$koneksi =  mysqli_connect($hostName, $userName, $password);
+
+if(!$koneksi){
+    echo "koneksi gagal";
+}else{
+    echo "koneksi berhasil";
+}
+
+/*
+ * Encapsulate koneksi
 class koneksi {
 private $host = "localhost";
 private $username = "root";
 private $password = "";
-private $dbname = "db_user";
+private $dbname = "hanaasri";
 
 public function getKoneksi() {
     try {
@@ -15,3 +31,4 @@ public function getKoneksi() {
         }
     }
 }
+*/
