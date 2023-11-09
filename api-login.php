@@ -1,46 +1,21 @@
 <?php
-require_once "koneksi.php";
 
-// Inisialisasi koneksi
-$koneksi = (new koneksi())->getKoneksi();
+include "koneksi.php";
 
-if ($koneksi) {
-    // Koneksi berhasil, lanjutkan
-    if (isset($_GET['function']) && function_exists($_GET['function'])) {
-        $_GET['function']();
-    } else {
-        // Handle the case when 'function' parameter is missing or invalid
-        $response = array(
-            'status' => 0,
-            'message' => 'Invalid function'
-        );
+$email = $_GET['email'];
+$password = $_GET['password'];
 
-        header('Content-Type: application/json');
-        echo json_encode($response);
+$cek = "SELECT * FROM wm_hanaasri WHERE email = '$email' AND password = '$password'";
+$msql = mysqli_query($koneksi, $cek);
+$result = mysqli_num_rows($msql);
+
+if(!empty($email) && !empty($password)){
+    
+    if($result == 0){
+        echo "0";
+    }else{
+        echo "Selamat Datang";
     }
-
-} else {
-    // Handle the case when the database connection fails
-    $response = array(
-        'status' => 0,
-        'message' => 'Database connection failed'
-    );
-
-    header('Content-Type: application/json');
-    echo json_encode($response);
+}else{
+    echo "Ada Data Yang Masih Kosong";
 }
-function get_user()
-{
-    global $koneksi;
-    $query = $koneksi->query("SELECT * FROM users");
-    $data = $query->fetchAll(PDO::FETCH_OBJ);
-
-    $response = array(
-        'status' => 1,
-        'message' => 'Success',
-        'data' => $data
-    );
-
-    header('Content-Type: application/json');
-    echo json_encode($response);
-};
