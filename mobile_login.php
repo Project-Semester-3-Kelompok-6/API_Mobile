@@ -1,0 +1,46 @@
+<?php
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    include 'koneksi.php';
+    $conn = mysqli_connect($hostName, $userName, $password, $dbName);
+
+    $email = $_POST['email'];  // Access data from form-data in POST request
+    $password = $_POST['password'];
+
+    $query_check = "select * from users where email = '$email'";
+    $check = mysqli_fetch_array(mysqli_query($conn, $query_check));
+    $json_array = array();
+    $response = "";
+
+    if (isset($check)) {
+        $query_check_pass = "select * from users where email = '$email' and password = '$password'";
+        $query_pass_result = mysqli_query($conn, $query_check_pass);
+        $check_password = mysqli_fetch_array($query_pass_result);
+        if (isset($check_password)) {
+            $query_pass_result = mysqli_query($conn, $query_check_pass);
+            while ($row = mysqli_fetch_assoc($query_pass_result)) {
+                $json_array[] = $row;
+            }
+            $response = array(
+                'code' => 200,
+                'status' => 'Sukses',
+                'data' => $json_array
+            );
+        } else {
+            $response = array(
+                'code' => 401,
+                'status' => 'Password salah, periksa kembali!',
+                'data' => $json_array
+            );
+        }
+    } else {
+        $response = array(
+            'code' => 404,
+            'status' => 'Data tidak ditemukan, lanjutkan registrasi?',
+            'data' => $json_array
+        );
+    }
+    header('Content-Type: application/json');  // Set response content type
+    echo json_encode($response);  // Output JSON response
+    mysqli_close($conn);
+}
+?>
