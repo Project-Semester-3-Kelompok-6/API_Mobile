@@ -3,16 +3,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     include 'koneksi.php';
     $conn = mysqli_connect($hostName, $userName, $password, $dbName);
 
-    $email = $_POST['email'];  // Access data from form-data in POST request
-    $password = $_POST['password'];
+    $email = $_POST['Email'];  // Access data from form-data in POST request
+    $password = $_POST['Password'];
 
-    $query_check = "select * from users where email = '$email'";
+    $query_check = "select * from users where Email = '$email'";
     $check = mysqli_fetch_array(mysqli_query($conn, $query_check));
     $json_array = array();
     $response = "";
 
     if (isset($check)) {
-        $query_check_pass = "select * from users where email = '$email' and password = '$password'";
+        $query_check_pass = "select * from users where Email = '$email' and Password = '$password'";
         $query_pass_result = mysqli_query($conn, $query_check_pass);
         $check_password = mysqli_fetch_array($query_pass_result);
         if (isset($check_password)) {
