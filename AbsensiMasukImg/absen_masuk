@@ -1,0 +1,33 @@
+<?php
+include 'koneksi.php';
+
+if(isset($_POST['image']) && isset($_POST['id_pegawai']) && isset($_POST['tanggal']) && isset($_POST['lokasi']) && isset($_POST['keterangan'])) {
+    // Memeriksa apakah ada gambar yang diterima
+    if(!empty($_POST['image'])){
+        // Menyimpan gambar ke direktori server
+        $image = $_POST['image']; // Data gambar dalam bentuk base64
+        $uploadPath = 'AbsensiMasukImg/' . date("d-m-y") . '-' . time() . '-' . rand(10000, 10000) . '.jpg';
+        if(file_put_contents($uploadPath, base64_decode($image))){
+            // Jika gambar berhasil diunggah, lanjutkan untuk menyimpan data teks ke dalam database
+            $id_pegawai = $_POST['id_pegawai'];
+            $tanggal = $_POST['tanggal'];
+            $lokasi = $_POST['lokasi'];
+            $keterangan = $_POST['keterangan'];
+
+            // Proses penyimpanan data ke dalam database
+            $sql = "INSERT INTO absensi (image_path, id_pegawai, tanggal, lokasi, keterangan) VALUES ('$uploadPath', '$id_pegawai', '$tanggal', '$lokasi', '$keterangan')";
+            if ($koneksi->query($sql) === TRUE) {
+                echo 'success';
+            } else {
+                echo 'Failed to save data';
+            }
+        } else {
+            echo 'Failed to upload image';
+        }
+    } else {
+        echo 'No image found';
+    }
+} else {
+    echo 'Incomplete data received';
+}
+?>
