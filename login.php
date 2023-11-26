@@ -1,45 +1,28 @@
 <?php
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    include 'koneksi.php'; // Koneksi ke database
-    $conn = mysqli_connect($hostName, $userName, $password, $dbName);
+if(!empty($_POST['email']) && !empty($_POST['password'])){
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $result = array();
+    $con = mysqli_connect("localhost", "root", "", "login_register");
+    if($con){
+        $sql = "select * from users where email = '".$email."'";
+        $res = mysqli_query($con, $sql);
+        if(mysqli_num_rows($res) != 0){
+            $row = mysqli_fetch_assoc($res);
+            if($email == $row['email'] && password_verify($password, $row['password'])){
+                try{
+                    $apiKey = bin2hex(random_bytes(23));
+                }catch(Exception $e){
+                    $apiKey = bin2hex(uniqid($email, true));
+                }
+                $sqlUpdate = "update users set apiKey = '".$apiKey."' where email = '".$email."'";
+                if(mysqli_query($con, $sqlUpdate)){
+                    $result = array("status"=>"success", "message"=>"Login successful",
+                    "name"=> $row['name'],"email"=>$row['email'], "apiKey"=> $apiKey);
 
-    $email = $_POST['Email'];
-    $password = $_POST['Password'];
-
-    $query_check = "SELECT * FROM users WHERE Email = ?";
-    $stmt = mysqli_prepare($conn, $query_check);
-    mysqli_stmt_bind_param($stmt, 's', $email);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-    $user = mysqli_fetch_assoc($result);
-
-    if ($user) {
-        $storedPassword = $user['Password'];
-
-        // Verifikasi kata sandi
-        if ($password === $storedPassword) {
-            $response = array(
-                'code' => 200,
-                'status' => 'Sukses',
-                'token' => $user['token'], // Ganti dengan nama kolom token Anda
-                'data' => array()
-            );
-        } else {
-            $response = array(
-                'code' => 401,
-                'status' => 'Password salah, periksa kembali!',
-                'data' => array()
-            );
-        }
-    } else {
-        $response = array(
-            'code' => 404,
-            'status' => 'Data tidak ditemukan, lanjutkan registrasi?',
-            'data' => array()
-        );
-    }
-    header('Content-Type: application/json');
-    echo json_encode($response);
-    mysqli_close($conn);
-}
-?>
+                }else $result = array("status" => "failed", "message" => "Login failed try again");
+            }else $result = array("status" => "failed", "message" => "Retry with correct email and password");
+        }else $result = array("status" => "failed", "message" => "Retry with correct email and password");
+    }else $result = array("status" => "failed", "message" => "Database connection failed");
+}else $result = array("status" => "failed", "message" => "All field are required");
+echo json_encode($result, JSON_PRETTY_PRINT);
