@@ -8,7 +8,7 @@ require "vendor/autoload.php";
 
 if(!empty($_POST['email'])){
     $email = $_POST['email'];
-    $con = mysqli_connect("localhost", "root", "", "login_register");
+    $con = mysqli_connect("localhost", "root", "", "wm_hanaasri");
     if($con){
         try{
         $otp = random_int(100000, 999999);
@@ -27,7 +27,7 @@ if(!empty($_POST['email'])){
                     $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
                     $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
                     $mail->Username   = 'muhyi7x@gmail.com';                     //SMTP username
-                    $mail->Password   = 'fmmz llfd foet kozo';                               //SMTP password
+                    $mail->Password   = 'xvsc gvix vcqx devh';                               //SMTP password
                     $mail->SMTPSecure = 'tls';            //Enable implicit TLS encryption
                     $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
                 
