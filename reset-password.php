@@ -17,7 +17,7 @@ if(!empty($_POST['email'])){
         $otp = rand(100000, 999999);
         }
         $sql = "update users set reset_password_otp = '".$otp."', reset_password_created_at = '"
-        .date('Y-m-d H:i:s')."' where email = '".$email."'";
+        .date('Y-m-d H:i:s')."' where Email = '".$email."'";
         if(mysqli_query($con, $sql)){
             if(mysqli_affected_rows($con)){
                 $mail = new PHPMailer(true);
