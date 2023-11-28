@@ -4,9 +4,9 @@ $userName = "root";
 $password = "";
 $dbName = "wm_hanaasri";
 
-$koneksi = mysqli_connect($hostName, $userName, $password, $dbName);
+$con = mysqli_connect($hostName, $userName, $password, $dbName);
 
-if (!$koneksi) {
+if (!$con) {
     die("Koneksi gagal: " . mysqli_connect_error());
 }
 ?>
