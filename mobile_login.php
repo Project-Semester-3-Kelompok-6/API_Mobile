@@ -16,6 +16,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $query_pass_result = mysqli_query($conn, $query_check_pass);
         $check_password = mysqli_fetch_array($query_pass_result);
         if (isset($check_password)) {
+            $apiKey = bin2hex(random_bytes(23)); // Generate API Key
+            $query_update_apiKey = "UPDATE users SET apiKey = '$apiKey' WHERE Email = '$email'";
+            mysqli_query($conn, $query_update_apiKey); // Set API Key in the database
+
             $query_pass_result = mysqli_query($conn, $query_check_pass);
             while ($row = mysqli_fetch_assoc($query_pass_result)) {
                 $json_array[] = $row;
@@ -35,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         $response = array(
             'code' => 404,
-            'status' => 'Data tidak ditemukan, lanjutkan registrasi?',
+            'status' => 'Data tidak ditemukan',
             'data' => $json_array
         );
     }
