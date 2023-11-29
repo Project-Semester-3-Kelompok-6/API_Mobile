@@ -17,7 +17,7 @@ if(!empty($_POST['email'])){
         $otp = rand(100000, 999999);
         }
         $sql = "update users set reset_password_otp = '".$otp."', reset_password_created_at = '"
-        .date('Y-m-d H:i:s')."' where email = '".$email."'";
+        .date('Y-m-d H:i:s')."' where Email = '".$email."'";
         if(mysqli_query($con, $sql)){
             if(mysqli_affected_rows($con)){
                 $mail = new PHPMailer(true);
@@ -27,7 +27,7 @@ if(!empty($_POST['email'])){
                     $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
                     $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
                     $mail->Username   = 'muhyi7x@gmail.com';                     //SMTP username
-                    $mail->Password   = 'fmmz llfd foet kozo';                               //SMTP password
+                    $mail->Password   = 'xvsc gvix vcqx devh';                               //SMTP password
                     $mail->SMTPSecure = 'tls';            //Enable implicit TLS encryption
                     $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
                 

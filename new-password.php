@@ -12,10 +12,10 @@ if (!empty($_POST['email']) && !empty($_POST['otp']) && !empty($_POST['new-passw
             if (mysqli_affected_rows($con)) {
                 echo "success";
             } else {
-                echo "Reset Password Failed";
+                echo "Kode OTP Salah";
             }
         } else {
-            echo "Reset Password Failed";
+            echo "Kode OTP Salah";
         }
     } else {
         echo "Database connection failed";
