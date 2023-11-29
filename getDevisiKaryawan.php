@@ -6,8 +6,8 @@ if ($con->connect_error) {
     die("Koneksi Gagal: " . $con->connect_error);
 }
 
-// Query untuk mengambil NamaDevisi dari tabel devisi dan Nama dari tabel users berdasarkan DevisiID
-$sql = "SELECT d.NamaDevisi, u.Nama
+// Query untuk mengambil DevisiID, NamaDevisi dari tabel devisi, Nama, dan UserID dari tabel users berdasarkan DevisiID
+$sql = "SELECT d.DevisiID, d.NamaDevisi, u.UserID, u.Nama
         FROM devisi d
         INNER JOIN users u ON d.DevisiID = u.DevisiID";
 
