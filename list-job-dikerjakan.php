@@ -12,16 +12,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['KaryawanID'])) {
     if ($result) {
         if ($result->num_rows > 0) {
             // Jika ada data, simpan dalam array
-            $jobdikerjakan = array();
+            $jobselesai = array();
             while ($row = $result->fetch_assoc()) {
-                $jobdikerjakan[] = $row;
+                $jobselesai[] = $row;
             }
 
             // Set header untuk JSON
             header('Content-Type: application/json');
 
             // Tampilkan data dalam format JSON
-            echo json_encode($jobdikerjakan);
+            echo json_encode($jobselesai);
         } else {
             // Jika tidak ada data
             echo json_encode(array('message' => 'Tidak ada data pekerjaan yang sedang dikerjakan untuk KaryawanID ini.'));
